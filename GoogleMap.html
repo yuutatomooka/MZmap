@@ -13,11 +13,11 @@
   xmlHttp.withCredentials = true;
   xmlHttp.open(
     "GET",
-    "http://moz-wave.conohawing.com/Maps_data/mobile_log.csv",
+    "https://moz-wave.conohawing.com/Maps_data/mobile_log.csv",
     true
   );
   xmlHttp.send();
-  xmlHttp.onload = function () {
+  xmlHttp.onload =  () => {
     var heatMapData = [];
 
     var responses = xmlHttp.responseText.split("\n");
@@ -37,31 +37,27 @@
       }
     }
 
-    var temperatures = [];
-
+    var cover_points = [];
     for (var i = 12; i < formattedReponses.length; i++) {
-      var temperature = [];
-
-      temperature.push(formattedReponses[i][1]);
-      temperature.push(formattedReponses[i][5]);
-      temperature.push(formattedReponses[i][6]);
-      temperature.push(formattedReponses[i][13]);
-      temperature.push(formattedReponses[i][14]);
+      var cover_point = {};
+      
+      cover_point = {dBm : formattedReponses[i][6], lat : formattedReponses[i][13], lng :formattedReponses[i][14]};
 
       if (formattedReponses[i][6] < 0) {
-        temperature.push(1);
+        cover_point.weight = 1;
       }
 
-      temperatures.push(temperature);
+      cover_points.push(cover_point);
+
     }
 
-    for (var i = 0; i < temperatures.length; i++) {
+    for (var i = 0; i < cover_points.length; i++) {
       heatMapData.push({
         location: new google.maps.LatLng(
-          temperatures[i][3],
-          temperatures[i][4]
+          cover_points[i].lat,
+          cover_points[i].lng
         ),
-        weight: temperatures[i][5],
+        weight: cover_points[i].weight,
       });
     }
 
