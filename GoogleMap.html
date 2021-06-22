@@ -8,29 +8,30 @@
     center: { lat: 33.816036, lng: 130.872306 },
     zoom: 11,
   });
-
-  jQuery(function ($) {
-    $.ajax({
-      url: "https://script.google.com/macros/s/AKfycbyz9cGRZBGtMbJy5nvoB_Qc1p-cPo_kjHYPQsp5iYg9KinMgyQ/exec",
-      dataType: "jsonp",
-      jsonpCallback: "ImportStrengthJson",
-      success: (ToMapData = (json) => {
-        var heatMapData = [];
-        for (var i = 0; i < json.length; i++) {
-          heatMapData.push({
-            location: new google.maps.LatLng(
-              json[i].Latitude,
-              json[i].Longitude
-            ),
-            weight: json[i].Strength,
+  docomo_map = () => {
+    jQuery(function ($) {
+      $.ajax({
+        url: "https://script.google.com/macros/s/AKfycbyz9cGRZBGtMbJy5nvoB_Qc1p-cPo_kjHYPQsp5iYg9KinMgyQ/exec",
+        dataType: "jsonp",
+        jsonpCallback: "ImportStrengthJson",
+        success: (ToMapData = (json) => {
+          var heatMapData = [];
+          for (var i = 0; i < json.length; i++) {
+            heatMapData.push({
+              location: new google.maps.LatLng(
+                json[i].Latitude,
+                json[i].Longitude
+              ),
+              weight: json[i].Strength,
+            });
+          }
+          var heatmap = new google.maps.visualization.HeatmapLayer({
+            data: heatMapData,
           });
-        }
-        var heatmap = new google.maps.visualization.HeatmapLayer({
-          data: heatMapData,
-        });
 
-        heatmap.setMap(map);
-      }),
+          heatmap.setMap(map);
+        }),
+      });
     });
-  });
+  };
 </script>
