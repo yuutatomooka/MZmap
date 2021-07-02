@@ -24,11 +24,11 @@ function processForm1(formObject) {
 
       var tempArray = [];
 
-      tempArray.push(csvData[i][0]);
-      tempArray.push(csvData[i][2]);
-      tempArray.push(csvData[i][3]);
-      tempArray.push(csvData[i][4]);
-      tempArray.push(csvData[i][6]);
+      tempArray.push(csvData[i][1]);
+      tempArray.push(csvData[i][2] / 1000);
+      tempArray.push(csvData[i][3] / 1000);
+      tempArray.push(csvData[i][14]);
+      tempArray.push(csvData[i][15]);
 
 
 
@@ -72,13 +72,13 @@ function processForm1(formObject) {
       tempArray.push(csvData[i][14]);
       if(csvData[i][14] <= -130 || csvData[i][14] == "-"){
         tempArray.push(0);
-      }else if(csvData[i][14] <= -107){
+      }else if(csvData[i][14] <= -120){
         tempArray.push(1);
-      }else if(csvData[i][14] <= -99){
+      }else if(csvData[i][14] <= -110){
         tempArray.push(2);
-      }else if(csvData[i][14] <= -88){
+      }else if(csvData[i][14] <= -105){
         tempArray.push(3);
-      }else if(csvData[i][14] <= -78){
+      }else if(csvData[i][14] <= -100){
         tempArray.push(4);
       }else{
         tempArray.push(5);
@@ -119,11 +119,11 @@ function processForm1(formObject) {
 
       var tempArray = [];
 
-      tempArray.push(csvData[i][0]);
-      tempArray.push(csvData[i][2]);
-      tempArray.push(csvData[i][3]);
-      tempArray.push(csvData[i][4]);
-      tempArray.push(csvData[i][6]);
+      tempArray.push(csvData[i][1]);
+      tempArray.push(csvData[i][2] / 1000);
+      tempArray.push(csvData[i][3] / 1000);
+      tempArray.push(csvData[i][14]);
+      tempArray.push(csvData[i][15]);
 
 
 
@@ -167,13 +167,13 @@ function processForm1(formObject) {
       tempArray.push(csvData[i][14]);
       if(csvData[i][14] <= -130 || csvData[i][14] == "-"){
         tempArray.push(0);
-      }else if(csvData[i][14] <= -107){
+      }else if(csvData[i][14] <= -120){
         tempArray.push(1);
-      }else if(csvData[i][14] <= -99){
+      }else if(csvData[i][14] <= -110){
         tempArray.push(2);
-      }else if(csvData[i][14] <= -88){
+      }else if(csvData[i][14] <= -105){
         tempArray.push(3);
-      }else if(csvData[i][14] <= -78){
+      }else if(csvData[i][14] <= -100){
         tempArray.push(4);
       }else{
         tempArray.push(5);
@@ -213,11 +213,11 @@ function processForm1(formObject) {
 
       var tempArray = [];
 
-      tempArray.push(csvData[i][0]);
-      tempArray.push(csvData[i][2]);
-      tempArray.push(csvData[i][3]);
-      tempArray.push(csvData[i][4]);
-      tempArray.push(csvData[i][6]);
+      tempArray.push(csvData[i][1]);
+      tempArray.push(csvData[i][2] / 1000);
+      tempArray.push(csvData[i][3] / 1000);
+      tempArray.push(csvData[i][14]);
+      tempArray.push(csvData[i][15]);
 
 
 
@@ -261,13 +261,13 @@ function processForm1(formObject) {
       tempArray.push(csvData[i][14]);
       if(csvData[i][14] <= -130 || csvData[i][14] == "-"){
         tempArray.push(0);
-      }else if(csvData[i][14] <= -107){
+      }else if(csvData[i][14] <= -120){
         tempArray.push(1);
-      }else if(csvData[i][14] <= -99){
+      }else if(csvData[i][14] <= -110){
         tempArray.push(2);
-      }else if(csvData[i][14] <= -88){
+      }else if(csvData[i][14] <= -105){
         tempArray.push(3);
-      }else if(csvData[i][14] <= -78){
+      }else if(csvData[i][14] <= -100){
         tempArray.push(4);
       }else{
         tempArray.push(5);

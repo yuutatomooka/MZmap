@@ -24,6 +24,9 @@
           }
           var heatmap = new google.maps.visualization.HeatmapLayer({
             data: heatMapData,
+            maxIntensity:5,
+            radius:25,
+            opacity:0.4,
           });
 
           heatmap.setMap(map);
@@ -49,6 +52,9 @@
             });
             infoWindows[i] = new google.maps.InfoWindow({
               content:
+                  "Time:" +
+                  json[i].Time +
+                  "\n" +
                   "Download Speed:" +
                   json[i].Download_bps +
                   "[bps]\n" +
@@ -87,6 +93,9 @@
           }
           var heatmap = new google.maps.visualization.HeatmapLayer({
             data: heatMapData,
+            maxIntensity:5,
+            radius:25,
+            opacity:0.4,
           });
 
           heatmap.setMap(map);
@@ -112,6 +121,9 @@
             });
             infoWindows[i] = new google.maps.InfoWindow({
               content:
+                  "Time:" +
+                  json[i].Time +
+                  "\n" +
                   "Download Speed:" +
                   json[i].Download_bps +
                   "[bps]\n" +
@@ -150,6 +162,9 @@
           }
           var heatmap = new google.maps.visualization.HeatmapLayer({
             data: heatMapData,
+            maxIntensity:5,
+            radius:25,
+            opacity:0.4,
           });
 
           heatmap.setMap(map);
@@ -175,6 +190,9 @@
             });
             infoWindows[i] = new google.maps.InfoWindow({
               content:
+                  "Time:" +
+                  json[i].Time +
+                  "\n" +
                   "Download Speed:" +
                   json[i].Download_bps +
                   "[bps]\n" +
