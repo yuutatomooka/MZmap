@@ -1,146 +1,214 @@
-<div
-  id="map"
-  style="margin: 0; width: auto; max-width: 2000px; height: auto; height: 800px"
-></div>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCX69BvokUOYAHTQxLNagCIf53WAfz1Znk&libraries=visualization"></script>
+<div id="map" style="margin: 0; width: auto; max-width: 2000px; height: auto; height: 800px"></div>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCX69BvokUOYAHTQxLNagCIf53WAfz1Znk&amp;libraries=visualization"></script>
 <script>
   var map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: 33.816036, lng: 130.872306 },
     zoom: 11,
   });
+  vodacom_map = () => {
+    jQuery(function ($) {
+      $.ajax({
+        url: "https://script.google.com/macros/s/AKfycbztihwZ-BqLJiu7xa18YrXlnpPds2KhHw57f6uvqxa2X5IiaHf8SeKOUZRx_IxVEy7-/exec",
+        dataType: "jsonp",
+        jsonpCallback: "ImportStrengthJson",
+        success: (ToMapData = (json) => {
+          var heatMapData = [];
+          for (var i = 0; i < json.length; i++) {
+            heatMapData.push({
+              location: new google.maps.LatLng(
+                json[i].Latitude,
+                json[i].Longitude
+              ),
+              weight: json[i].Strength,
+            });
+          }
+          var heatmap = new google.maps.visualization.HeatmapLayer({
+            data: heatMapData,
+            maxIntensity:5,
+            radius:25,
+            opacity:0.4,
+          });
 
-  var xmlHttp = new XMLHttpRequest();
-  xmlHttp.withCredentials = true;
-  xmlHttp.open(
-    "GET",
-    "https://moz-wave.conohawing.com/Maps_data/mobile_log.csv",
-    true
-  );
-  xmlHttp.send();
-  xmlHttp.onload = () => {
-    var heatMapData = [];
-
-    var responses = xmlHttp.responseText.split("\n");
-
-    var formattedReponses = [];
-    for (var i = 12; i < responses.length; i++) {
-      if (responses[i] == "") break;
-
-      formattedReponses[i] = responses[i].split(",");
-
-      for (var i2 = 0; i2 < formattedReponses[i].length; i2++) {
-        if (formattedReponses[i][i2].match(/\-?\d+(.\d+)?(e[\+\-]d+)?/)) {
-          formattedReponses[i][i2] = parseFloat(
-            formattedReponses[i][i2].replace('"', "")
-          );
-        }
-      }
-    }
-
-    var cover_points = [];
-    for (var i = 12; i < formattedReponses.length; i++) {
-      var cover_point = {};
-
-      cover_point = {
-        dBm: formattedReponses[i][6],
-        lat: formattedReponses[i][13],
-        lng: formattedReponses[i][14],
-      };
-
-      if (formattedReponses[i][6] < 0) {
-        cover_point.weight = 1;
-      }
-
-      cover_points.push(cover_point);
-    }
-
-    for (var i = 0; i < cover_points.length; i++) {
-      heatMapData.push({
-        location: new google.maps.LatLng(
-          cover_points[i].lat,
-          cover_points[i].lng
-        ),
-        weight: cover_points[i].weight,
+          heatmap.setMap(map);
+        }),
       });
-    }
-
-    var heatmap = new google.maps.visualization.HeatmapLayer({
-      data: heatMapData,
     });
 
-    heatmap.setMap(map);
+    jQuery(function ($) {
+      $.ajax({
+        url: "https://script.google.com/macros/s/AKfycbxJcLjiFaMdfSZIhA9UB_i2KyUwiDTNNWOWo0xHBktxZphVirQkc2L3GpIZM2c-gbEa1Q/exec",
+        dataType: "jsonp",
+        jsonpCallback: "ImportSpeedJson",
+        success: (ToMapData = (json) => {
+          var infoWindows = [];
+          var maker_data = [];
+          for (var i = 0; i < json.length; i++) {
+             maker_data[i] = new google.maps.Marker({
+              position: new google.maps.LatLng(
+                json[i].Latitude,
+                json[i].Longitude
+              ),
+              map:map
+            });
+            infoWindows[i] = new google.maps.InfoWindow({
+              content:
+                  "Time:" +
+                  json[i].Time +
+                  "\n" +
+                  "Download Speed:" +
+                  json[i].Download_bps +
+                  "[bps]\n" +
+                  "Upload Speed:" +
+                  json[i].Upload_bps +
+                  "[bps]",
+            });
+            makerEvent = (i) =>{
+              maker_data[i].addListener('click', () =>{
+                infoWindows[i].open(map, maker_data[i]);
+            });
+          };
+            makerEvent(i);
+          }
+        }),
+      });
+    });
   };
-</script>
-<div
-  id="map"
-  style="margin: 0; width: auto; max-width: 2000px; height: auto; height: 800px"
-></div>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCX69BvokUOYAHTQxLNagCIf53WAfz1Znk&libraries=visualization"></script>
-<script>
-  var map = new google.maps.Map(document.getElementById("map"), {
-    center: { lat: 33.816036, lng: 130.872306 },
-    zoom: 11,
-  });
 
-  var xmlHttp = new XMLHttpRequest();
-  xmlHttp.withCredentials = true;
-  xmlHttp.open(
-    "GET",
-    "https://moz-wave.conohawing.com/Maps_data/mobile_log.csv",
-    true
-  );
-  xmlHttp.send();
-  xmlHttp.onload = () => {
-    var heatMapData = [];
+  movitel_map = () => {
+    jQuery(function ($) {
+      $.ajax({
+        url: "https://script.google.com/macros/s/AKfycbzYBkmoFgUOOY8NNlmSpsxoYfeBrgyFAMP87O8Ih7qYyqqF9lidZ0UbDQAMP3TJGV8k/exec",
+        dataType: "jsonp",
+        jsonpCallback: "ImportStrengthJson",
+        success: (ToMapData = (json) => {
+          var heatMapData = [];
+          for (var i = 0; i < json.length; i++) {
+            heatMapData.push({
+              location: new google.maps.LatLng(
+                json[i].Latitude,
+                json[i].Longitude
+              ),
+              weight: json[i].Strength,
+            });
+          }
+          var heatmap = new google.maps.visualization.HeatmapLayer({
+            data: heatMapData,
+            maxIntensity:5,
+            radius:25,
+            opacity:0.4,
+          });
 
-    var responses = xmlHttp.responseText.split("\n");
-
-    var formattedReponses = [];
-    for (var i = 12; i < responses.length; i++) {
-      if (responses[i] == "") break;
-
-      formattedReponses[i] = responses[i].split(",");
-
-      for (var i2 = 0; i2 < formattedReponses[i].length; i2++) {
-        if (formattedReponses[i][i2].match(/\-?\d+(.\d+)?(e[\+\-]d+)?/)) {
-          formattedReponses[i][i2] = parseFloat(
-            formattedReponses[i][i2].replace('"', "")
-          );
-        }
-      }
-    }
-
-    var cover_points = [];
-    for (var i = 12; i < formattedReponses.length; i++) {
-      var cover_point = {};
-
-      cover_point = {
-        dBm: formattedReponses[i][6],
-        lat: formattedReponses[i][13],
-        lng: formattedReponses[i][14],
-      };
-
-      if (formattedReponses[i][6] < 0) {
-        cover_point.weight = 1;
-      }
-
-      cover_points.push(cover_point);
-    }
-
-    for (var i = 0; i < cover_points.length; i++) {
-      heatMapData.push({
-        location: new google.maps.LatLng(
-          cover_points[i].lat,
-          cover_points[i].lng
-        ),
-        weight: cover_points[i].weight,
+          heatmap.setMap(map);
+        }),
       });
-    }
-
-    var heatmap = new google.maps.visualization.HeatmapLayer({
-      data: heatMapData,
     });
 
-    heatmap.setMap(map);
+    jQuery(function ($) {
+      $.ajax({
+        url: "https://script.google.com/macros/s/AKfycbyhflmlZRLEATAnVA_Uie5kKKz-6UBpmESwVYUyDwi4dd21S2di7euO2P1fR9rx5r7F/exec",
+        dataType: "jsonp",
+        jsonpCallback: "ImportSpeedJson",
+        success: (ToMapData = (json) => {
+          var infoWindows = [];
+          var maker_data = [];
+          for (var i = 0; i < json.length; i++) {
+             maker_data[i] = new google.maps.Marker({
+              position: new google.maps.LatLng(
+                json[i].Latitude,
+                json[i].Longitude
+              ),
+              map:map
+            });
+            infoWindows[i] = new google.maps.InfoWindow({
+              content:
+                  "Time:" +
+                  json[i].Time +
+                  "\n" +
+                  "Download Speed:" +
+                  json[i].Download_bps +
+                  "[bps]\n" +
+                  "Upload Speed:" +
+                  json[i].Upload_bps +
+                  "[bps]",
+            });
+            makerEvent = (i) =>{
+              maker_data[i].addListener('click', () =>{
+                infoWindows[i].open(map, maker_data[i]);
+            });
+          };
+            makerEvent(i);
+          }
+        }),
+      });
+    });
+  };
+
+  tmcel_map = () => {
+    jQuery(function ($) {
+      $.ajax({
+        url: "https://script.google.com/macros/s/AKfycbwEMe27L9wVLch2AZxp0LVgFajvO7r4Fu5DM8bmI9VWvkn2a6li0s11cckVObN1omxf/exec",
+        dataType: "jsonp",
+        jsonpCallback: "ImportStrengthJson",
+        success: (ToMapData = (json) => {
+          var heatMapData = [];
+          for (var i = 0; i < json.length; i++) {
+            heatMapData.push({
+              location: new google.maps.LatLng(
+                json[i].Latitude,
+                json[i].Longitude
+              ),
+              weight: json[i].Strength,
+            });
+          }
+          var heatmap = new google.maps.visualization.HeatmapLayer({
+            data: heatMapData,
+            maxIntensity:5,
+            radius:25,
+            opacity:0.4,
+          });
+
+          heatmap.setMap(map);
+        }),
+      });
+    });
+
+    jQuery(function ($) {
+      $.ajax({
+        url: "https://script.google.com/macros/s/AKfycby_7g_6E5Z1R4w5MYpRldv8LiE45jFD18tln_tX4ENg_Q97mnUvLIRzTIP7jVyh-4c/exec",
+        dataType: "jsonp",
+        jsonpCallback: "ImportSpeedJson",
+        success: (ToMapData = (json) => {
+          var infoWindows = [];
+          var maker_data = [];
+          for (var i = 0; i < json.length; i++) {
+             maker_data[i] = new google.maps.Marker({
+              position: new google.maps.LatLng(
+                json[i].Latitude,
+                json[i].Longitude
+              ),
+              map:map
+            });
+            infoWindows[i] = new google.maps.InfoWindow({
+              content:
+                  "Time:" +
+                  json[i].Time +
+                  "\n" +
+                  "Download Speed:" +
+                  json[i].Download_bps +
+                  "[bps]\n" +
+                  "Upload Speed:" +
+                  json[i].Upload_bps +
+                  "[bps]",
+            });
+            makerEvent = (i) =>{
+              maker_data[i].addListener('click', () =>{
+                infoWindows[i].open(map, maker_data[i]);
+            });
+          };
+            makerEvent(i);
+          }
+        }),
+      });
+    });
   };
 </script>
