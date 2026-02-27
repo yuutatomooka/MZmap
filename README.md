@@ -8,6 +8,18 @@ MZMap は、Google Maps JavaScript API の **HeatmapLayer（visualization librar
 [第5回日本オープンイノベーション大賞（内閣総理大臣賞）](https://www8.cao.go.jp/cstp/openinnovation/prize/2022.html) を受賞しており、  
 本プロジェクトの実証画面は [内閣府公開資料](https://www8.cao.go.jp/cstp/openinnovation/prize/5kai_gaiyo.pdf) にて紹介されています。
 
+(English)
+
+MZMap is a lightweight web application that visualizes latitude and longitude data from a CSV file as a heatmap using the **Google Maps JavaScript API (HeatmapLayer / visualization library)**.
+
+This project was used for field prototyping in Nampula Province, Mozambique, as part of the 2020 [JICA–KOSEN Open Innovation Challenge](https://www.kosen-oi.com/s-projects-basic).
+
+The overall challenge, which included this project, received the **Prime Minister’s Award** at the  
+[5th Japan Open Innovation Prize](https://www8.cao.go.jp/cstp/openinnovation/prize/2022.html).
+
+A demonstration screen of this project is also featured in official materials published by the  
+[Cabinet Office of Japan](https://www8.cao.go.jp/cstp/openinnovation/prize/5kai_gaiyo.pdf).
+
 ---
 
 ## 📌 Overview
