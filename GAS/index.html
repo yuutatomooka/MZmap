@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top" />
+    <script>
+      function preventFormSubmit() {
+        var forms = document.querySelectorAll("form");
+        for (var i = 0; i < forms.length; i++) {
+          forms[i].addEventListener("submit", function (event) {
+            event.preventDefault();
+          });
+        }
+      }
+      window.addEventListener("load", preventFormSubmit);
+      /*アップロードボタンが押されたらファイルをアップロード*/
+      function handleFormSubmit(formObject) {
+        const div = document.getElementById("progress");
+        div.innerHTML = "Uploading...";
+        var carrer_element = document.uploadForm.carrer;
+        for (i = 0; i < document.uploadForm.carrer.length-1; i++) {
+          if (carrer_element[i].checked) {
+            var carrer_selected = carrer_element[i].value;
+            break;
+          }
+        }
+        var type_element = document.uploadForm.type;
+        for (i = 0; i < document.uploadForm.type.length-1; i++) {
+          if (type_element[i].checked) {
+            var type_selected = type_element[i].value;
+            break;
+          }
+        }
+        if (carrer_selected === "Vodacom") {
+          if(type_selected === "Speed"){
+            google.script.run.withSuccessHandler(updateView).processForm1(formObject);
+          }else{
+            google.script.run.withSuccessHandler(updateView).processForm2(formObject);
+          }
+        }else if(carrer_selected === "Movitel"){
+          if(type_selected === "Speed"){
+            google.script.run.withSuccessHandler(updateView).processForm3(formObject);
+          }else{
+            google.script.run.withSuccessHandler(updateView).processForm4(formObject);
+          }
+        }else{
+          if(type_selected === "Speed"){
+            google.script.run.withSuccessHandler(updateView).processForm5(formObject);
+          }else{
+            google.script.run.withSuccessHandler(updateView).processForm6(formObject);
+          }
+        }
+      }
+      
+      /*アップロード完了画面に変える（動的）*/
+      function updateView() {
+        var div = document.getElementById("myform");
+        div.innerHTML =
+          "<div>Upload complete. Thank you for your cooperation.</div>";
+      }
+    </script>
+  </head>
+  <body>
+    <div id="myform" style="text-align: center">
+      <form name="uploadForm" onsubmit="handleFormSubmit(this)">
+        <h1>Measurement data upload website</h1>
+        <br />
+        <h4>Select the carrier you measured.</h4>
+        <br />
+          <input type="radio" name="carrer" value="Vodacom" 　required />Vodacom
+          <input type="radio" name="carrer" value="Movitel" required />Movitel
+          <input type="radio" name="carrer" value="Tmcel" required />Tmcel
+        <br />
+        <h4>Select the type of file to upload</h4>
+        <br />
+          <input type="radio" name="type" value="Speed" required />Speed
+          <input type="radio" name="type" value="RadioStrength" required />Radio
+        strength<br />
+        <h4>Select a measurement data file and upload it.</h4>
+        <br /><br />
+          <input id="file" name="myFile" type="file" accept=".csv" />
+          <input id="upload" type="submit" value="Upload" />
+        <div id="progress"></div>
+      </form>
+    </div>
+  </body>
+</html>
